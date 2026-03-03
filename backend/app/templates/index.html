@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pune Vaibhav Portal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+        }
+
+        .header {
+            background: white;
+            padding: 15px;
+            font-size: 22px;
+            font-weight: bold;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .categories {
+            display: flex;
+            overflow-x: auto;
+            background: white;
+            padding: 10px;
+            gap: 10px;
+        }
+
+        .categories a {
+            padding: 8px 15px;
+            background: #eee;
+            border-radius: 20px;
+            text-decoration: none;
+            color: black;
+            white-space: nowrap;
+            font-size: 14px;
+        }
+
+        .news-card {
+            background: white;
+            margin: 10px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            transition: 0.3s;
+        }
+
+        .news-card:hover {
+            transform: scale(1.01);
+        }
+
+        .news-card img {
+            width: 100%;
+            height: auto;
+        }
+
+        .news-content {
+            padding: 15px;
+        }
+
+        .live {
+            color: red;
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        .title {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 8px 0;
+        }
+
+        .area {
+            font-size: 12px;
+            color: gray;
+        }
+
+        /* ---------------- E-PAPER SECTION ---------------- */
+
+        .epaper-section {
+            background: #111;
+            padding: 30px 0;
+            margin-top: 20px;
+        }
+
+        .epaper-header {
+            background: white;
+            padding: 12px;
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .epaper-container {
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        .epaper-page {
+            margin: 30px 0;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .page-number {
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-align: left;
+        }
+
+        .epaper-page img {
+            width: 100%;
+            height: auto;
+            border-radius: 6px;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="header">🔥 Pune Vaibhav News Portal</div>
+
+<div class="categories">
+    <a href="/">All</a>
+    <a href="/area/Pune">Pune</a>
+    <a href="/area/Bhor">Bhor</a>
+    <a href="/area/Velhe">Velhe</a>
+    <a href="/area/Mulshi">Mulshi</a>
+    <a href="/edition">E-Paper</a>
+</div>
+
+<!-- ================= NEWS SECTION ================= -->
+
+{% if news_list %}
+    {% for news in news_list %}
+
+    <div class="news-card"
+         {% if loop.first %}
+         style="border:3px solid red;"
+         {% endif %}
+    >
+
+        {% if news.image_path %}
+        <img src="/static/{{ news.image_path }}">
+        {% endif %}
+
+        <div class="news-content">
+            <div class="live">LIVE</div>
+            <div class="title">{{ news.title }}</div>
+            <div>{{ news.content[:120] }}...</div>
+            <div class="area">{{ news.area }}</div>
+        </div>
+
+    </div>
+
+    {% endfor %}
+{% endif %}
+
+
+<!-- ================= E-PAPER SECTION ================= -->
+
+{% if pages %}
+<div class="epaper-section">
+
+    <div class="epaper-header">
+        📰 Pune Vaibhav E-Paper Edition
+    </div>
+
+    <div class="epaper-container">
+        {% for page in pages %}
+        <div class="epaper-page">
+            <div class="page-number">Page {{ loop.index }}</div>
+            <img src="/static/{{ page }}">
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+{% endif %}
+
+</body>
+</html>
+
