@@ -5,9 +5,9 @@ from fastapi.staticfiles import StaticFiles
 from sqlalchemy.orm import Session
 import os
 
-from app.database import Base, engine, get_db
-from app.models import News
-from app.routes import news
+from backend.app.database import Base, engine, get_db
+from backend.app.models import News
+from backend.app.routes import news
 
 app = FastAPI()
 
