@@ -1,23 +1,29 @@
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, Request, Depends
 from fastapi.templating import Jinja2Templates
+from sqlalchemy.orm import Session
 from pdf2image import convert_from_path
 import os
 
+from backend.app.database import get_db
+from backend.app.models import News
+
 router = APIRouter()
-templates = Jinja2Templates(directory="app/templates")
+
+templates = Jinja2Templates(directory="backend/app/templates")
 
 
+# -----------------------------
+# E-PAPER ROUTE
+# -----------------------------
 @router.get("/edition")
 def show_edition(request: Request):
 
-    pdf_path = "app/uploads/02march2026punevaibhavfinalpages.pdf"
-    output_folder = "app/static/newspaper"
+    pdf_path = "backend/app/uploads/02march2026punevaibhavfinalpages.pdf"
+    output_folder = "backend/app/static/newspaper"
 
-    # 🔎 Check PDF exists
     if not os.path.exists(pdf_path):
         return {"error": "PDF file not found in uploads folder"}
 
-    # 📁 Create folder if not exists
     os.makedirs(output_folder, exist_ok=True)
 
     try:
@@ -31,7 +37,9 @@ def show_edition(request: Request):
         filename = f"page_{i+1}.jpg"
         save_path = os.path.join(output_folder, filename)
         page.save(save_path, "JPEG")
-        image_list.append(f"newspaper/{filename}")
+
+        # static path
+        image_list.append(f"static/newspaper/{filename}")
 
     return templates.TemplateResponse(
         "index.html",
@@ -39,5 +47,23 @@ def show_edition(request: Request):
             "request": request,
             "pages": image_list,
             "news_list": []
+        }
+    )
+
+
+# -----------------------------
+# AREA FILTER ROUTE
+# -----------------------------
+@router.get("/area/{area_name}")
+def news_by_area(area_name: str, request: Request, db: Session = Depends(get_db)):
+
+    news_list = db.query(News).filter(News.area == area_name).all()
+
+    return templates.TemplateResponse(
+        "index.html",
+        {
+            "request": request,
+            "news_list": news_list,
+            "pages": []
         }
     )
