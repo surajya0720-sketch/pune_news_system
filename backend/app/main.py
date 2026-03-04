@@ -22,7 +22,7 @@ app.include_router(news.router)
 
 templates = Jinja2Templates(directory="backend/app/templates")
 
-# ✅ PDF PATH
+# PDF PATH
 pdf_path = "backend/app/uploads/02march2026punevaibhavfinalpages.pdf"
 
 
@@ -31,13 +31,14 @@ def home(request: Request, db: Session = Depends(get_db)):
 
     news_list = db.query(News).all()
 
+    # ✅ E-paper pages load
     pages = []
     newspaper_folder = "backend/app/static/newspaper"
 
     if os.path.exists(newspaper_folder):
         for file in sorted(os.listdir(newspaper_folder)):
             if file.lower().endswith(".jpg"):
-                pages.append(f"/static/newspaper/{file}")
+                pages.append(f"static/newspaper/{file}")
 
     return templates.TemplateResponse(
         "index.html",
