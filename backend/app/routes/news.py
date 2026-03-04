@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Request, Depends
+from fastapi import APIRouter, Request, Depends, Form
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from pdf2image import convert_from_path
@@ -10,6 +10,32 @@ from backend.app.models import News
 router = APIRouter()
 
 templates = Jinja2Templates(directory="backend/app/templates")
+
+
+# -----------------------------
+# CREATE NEWS API
+# -----------------------------
+@router.post("/news")
+def create_news(
+    title: str = Form(...),
+    content: str = Form(...),
+    area: str = Form(...),
+    image_path: str = Form(...),
+    db: Session = Depends(get_db)
+):
+
+    news = News(
+        title=title,
+        content=content,
+        area=area,
+        image_path=image_path
+    )
+
+    db.add(news)
+    db.commit()
+    db.refresh(news)
+
+    return {"message": "News added successfully"}
 
 
 # -----------------------------

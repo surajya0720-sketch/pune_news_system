@@ -108,6 +108,39 @@ margin:20px;
 border-radius:10px;
 }
 
+.latest-news{
+max-width:1200px;
+margin:auto;
+padding:20px;
+}
+
+.news-grid-3{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:20px;
+}
+
+.latest-card{
+background:white;
+border-radius:10px;
+overflow:hidden;
+box-shadow:0 2px 6px rgba(0,0,0,0.1);
+}
+
+.latest-card img{
+width:100%;
+}
+
+.area-tag{
+font-size:12px;
+color:white;
+background:#e53935;
+display:inline-block;
+padding:4px 10px;
+border-radius:20px;
+margin-top:8px;
+}
+
 .epaper{
 background:#111;
 padding:30px;
@@ -182,6 +215,8 @@ BREAKING NEWS: Pune मध्ये नवीन project | Velhe मध्ये
 
 <p>{{ news.content[:80] }}...</p>
 
+<div class="area-tag">{{ news.area }}</div>
+
 </div>
 
 </a>
@@ -208,6 +243,49 @@ BREAKING NEWS: Pune मध्ये नवीन project | Velhe मध्ये
 <img src="https://picsum.photos/400/260">
 
 <p>Latest breaking story</p>
+
+</div>
+
+</div>
+
+
+<!-- 🔥 LATEST NEWS SECTION -->
+
+<div class="latest-news">
+
+<h2>Latest News</h2>
+
+<div class="news-grid-3">
+
+{% for news in news_list %}
+
+<div class="latest-card">
+
+<a href="/news/{{ news.id }}" style="text-decoration:none;color:black">
+
+{% if news.image_path %}
+<img src="/static/{{ news.image_path }}">
+{% endif %}
+
+<div style="padding:15px">
+
+<h3>{{ news.title }}</h3>
+
+<p style="color:gray;font-size:14px">
+{{ news.content[:120] }}...
+</p>
+
+<div class="area-tag">
+{{ news.area }}
+</div>
+
+</div>
+
+</a>
+
+</div>
+
+{% endfor %}
 
 </div>
 
