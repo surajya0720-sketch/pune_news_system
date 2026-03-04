@@ -20,7 +20,7 @@ Base.metadata.create_all(bind=engine)
 # ✅ Include router
 app.include_router(news.router)
 
-templates = Jinja2Templates(directory="app/templates")
+templates = Jinja2Templates(directory="backend/app/templates")
 
 
 @app.get("/", response_class=HTMLResponse)
