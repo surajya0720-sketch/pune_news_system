@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>{{ news.title }}</title>
+</head>
+
+<body style="font-family:Arial;max-width:800px;margin:auto">
+
+<h1>{{ news.title }}</h1>
+
+{% if news.image_path %}
+<img src="/static/{{ news.image_path }}" width="100%">
+{% endif %}
+
+<p>{{ news.content }}</p>
+
+<br>
+
+<a href="/">⬅ Back to Home</a>
+
+</body>
+
+</html>

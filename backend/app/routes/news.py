@@ -51,12 +51,11 @@ def show_edition(request: Request):
 
 
 # -----------------------------
-# AREA FILTER ROUTE (FIXED)
+# AREA FILTER ROUTE
 # -----------------------------
 @router.get("/area/{area_name}")
 def news_by_area(area_name: str, request: Request, db: Session = Depends(get_db)):
 
-    # ✅ case-insensitive filter
     news_list = db.query(News).filter(News.area.ilike(area_name)).all()
 
     return templates.TemplateResponse(
@@ -65,5 +64,25 @@ def news_by_area(area_name: str, request: Request, db: Session = Depends(get_db)
             "request": request,
             "news_list": news_list,
             "pages": []
+        }
+    )
+
+
+# -----------------------------
+# NEWS DETAIL PAGE
+# -----------------------------
+@router.get("/news/{news_id}")
+def news_detail(news_id: int, request: Request, db: Session = Depends(get_db)):
+
+    news = db.query(News).filter(News.id == news_id).first()
+
+    if not news:
+        return {"error": "News not found"}
+
+    return templates.TemplateResponse(
+        "news_detail.html",
+        {
+            "request": request,
+            "news": news
         }
     )

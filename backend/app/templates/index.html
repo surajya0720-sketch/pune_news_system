@@ -1,113 +1,151 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Pune Vaibhav Portal</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pune Vaibhav Portal</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f4f4f4;
-        }
+<style>
 
-        .header {
-            background: white;
-            padding: 15px;
-            font-size: 22px;
-            font-weight: bold;
-            border-bottom: 1px solid #ddd;
-        }
+body{
+margin:0;
+font-family:Arial;
+background:#f4f4f4;
+}
 
-        .categories {
-            display: flex;
-            overflow-x: auto;
-            background: white;
-            padding: 10px;
-            gap: 10px;
-        }
+.header{
+background:white;
+padding:15px;
+font-size:22px;
+font-weight:bold;
+border-bottom:1px solid #ddd;
+}
 
-        .categories a {
-            padding: 8px 15px;
-            background: #eee;
-            border-radius: 20px;
-            text-decoration: none;
-            color: black;
-            white-space: nowrap;
-            font-size: 14px;
-        }
+.categories{
+display:flex;
+overflow-x:auto;
+background:white;
+padding:10px;
+gap:10px;
+}
 
-        .news-card {
-            background: white;
-            margin: 10px;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-        }
+.categories a{
+padding:8px 15px;
+background:#eee;
+border-radius:20px;
+text-decoration:none;
+color:black;
+font-size:14px;
+}
 
-        .news-card img {
-            width: 100%;
-        }
+.news-card{
+background:white;
+margin:10px;
+border-radius:10px;
+overflow:hidden;
+box-shadow:0 2px 6px rgba(0,0,0,0.1);
+}
 
-        .news-content {
-            padding: 15px;
-        }
+.news-card img{
+width:100%;
+}
 
-        .live {
-            color: red;
-            font-weight: bold;
-            font-size: 12px;
-        }
+.news-content{
+padding:15px;
+}
 
-        .title {
-            font-size: 18px;
-            font-weight: bold;
-            margin: 8px 0;
-        }
+.live{
+color:red;
+font-weight:bold;
+font-size:12px;
+}
 
-        .area {
-            font-size: 12px;
-            color: gray;
-        }
+.title{
+font-size:18px;
+font-weight:bold;
+margin:8px 0;
+}
 
-        .epaper-section {
-            background: #111;
-            padding: 30px 0;
-            margin-top: 20px;
-        }
+.area{
+font-size:12px;
+color:gray;
+}
 
-        .epaper-header {
-            background: white;
-            padding: 12px;
-            font-size: 20px;
-            font-weight: bold;
-            text-align: center;
-        }
+.epaper-section{
+background:#111;
+padding:30px 0;
+margin-top:20px;
+}
 
-        .epaper-container {
-            max-width: 1100px;
-            margin: auto;
-        }
+.epaper-header{
+background:white;
+padding:12px;
+font-size:20px;
+font-weight:bold;
+text-align:center;
+}
 
-    </style>
+.epaper-container{
+max-width:1100px;
+margin:auto;
+}
+
+</style>
+
 </head>
 
 <body>
 
 <div class="header">🔥 Pune Vaibhav News Portal</div>
 
-<div class="categories">
-    <a href="/">All</a>
-    <a href="/area/Pune">Pune</a>
-    <a href="/area/Bhor">Bhor</a>
-    <a href="/area/Velhe">Velhe</a>
-    <a href="/area/Mulshi">Mulshi</a>
-    <a href="/edition">E-Paper</a>
+
+<!-- BREAKING NEWS -->
+
+<div style="background:red;color:white;padding:10px;font-weight:bold">
+<marquee>
+BREAKING NEWS: Pune मध्ये नवीन development project सुरू | Velhe मध्ये पावसामुळे रस्ते बंद | Mulshi मध्ये नवीन पर्यटन प्रकल्प
+</marquee>
 </div>
 
 
+<!-- CATEGORIES -->
+
+<div class="categories">
+<a href="/">All</a>
+<a href="/area/Pune">Pune</a>
+<a href="/area/Bhor">Bhor</a>
+<a href="/area/Velhe">Velhe</a>
+<a href="/area/Mulshi">Mulshi</a>
+<a href="/edition">E-Paper</a>
+</div>
+
+
+
+<!-- BIG HEADLINE NEWS -->
+
+{% if news_list %}
+
+<div style="background:white;padding:20px;margin:10px;border-radius:10px">
+
+<h2>{{ news_list[0].title }}</h2>
+
+{% if news_list[0].image_path %}
+<img src="/static/{{ news_list[0].image_path }}" style="width:100%">
+{% endif %}
+
+<p>{{ news_list[0].content[:150] }}...</p>
+
+</div>
+
+{% endif %}
+
+
+
+<!-- NEWS LIST -->
+
 {% if news_list %}
 {% for news in news_list %}
+
+<a href="/news/{{ news.id }}" style="text-decoration:none;color:black;">
 
 <div class="news-card">
 
@@ -124,12 +162,32 @@
 
 </div>
 
+</a>
+
 {% endfor %}
 {% endif %}
 
 
 
-<!-- ================= E-PAPER SECTION ================= -->
+<!-- VIDEO NEWS -->
+
+<div style="margin:20px">
+
+<h2>Video News</h2>
+
+<iframe
+width="100%"
+height="350"
+src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+frameborder="0"
+allowfullscreen>
+</iframe>
+
+</div>
+
+
+
+<!-- E PAPER -->
 
 {% if pages %}
 
@@ -143,12 +201,12 @@
 
 {% for page in pages %}
 
-<div style="margin-bottom:30px; background:white; padding:15px; border-radius:10px;">
+<div style="margin-bottom:30px;background:white;padding:15px;border-radius:10px">
 
 <h3>Page {{ loop.index }}</h3>
 
 <img src="/{{ page }}"
-style="width:100%; border:1px solid #ddd; border-radius:10px;" />
+style="width:100%;border:1px solid #ddd;border-radius:10px;">
 
 </div>
 
