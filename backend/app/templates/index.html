@@ -43,16 +43,10 @@
             border-radius: 10px;
             overflow: hidden;
             box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-            transition: 0.3s;
-        }
-
-        .news-card:hover {
-            transform: scale(1.01);
         }
 
         .news-card img {
             width: 100%;
-            height: auto;
         }
 
         .news-content {
@@ -76,8 +70,6 @@
             color: gray;
         }
 
-        /* ---------------- E-PAPER SECTION ---------------- */
-
         .epaper-section {
             background: #111;
             padding: 30px 0;
@@ -97,28 +89,9 @@
             margin: auto;
         }
 
-        .epaper-page {
-            margin: 30px 0;
-            background: white;
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-        }
-
-        .page-number {
-            font-weight: bold;
-            margin-bottom: 10px;
-            text-align: left;
-        }
-
-        .epaper-page img {
-            width: 100%;
-            height: auto;
-            border-radius: 6px;
-        }
-
     </style>
 </head>
+
 <body>
 
 <div class="header">🔥 Pune Vaibhav News Portal</div>
@@ -132,55 +105,60 @@
     <a href="/edition">E-Paper</a>
 </div>
 
-<!-- ================= NEWS SECTION ================= -->
 
 {% if news_list %}
-    {% for news in news_list %}
+{% for news in news_list %}
 
-    <div class="news-card"
-         {% if loop.first %}
-         style="border:3px solid red;"
-         {% endif %}
-    >
+<div class="news-card">
 
-        {% if news.image_path %}
-        <img src="/static/{{ news.image_path }}">
-        {% endif %}
-
-        <div class="news-content">
-            <div class="live">LIVE</div>
-            <div class="title">{{ news.title }}</div>
-            <div>{{ news.content[:120] }}...</div>
-            <div class="area">{{ news.area }}</div>
-        </div>
-
-    </div>
-
-    {% endfor %}
+{% if news.image_path %}
+<img src="/static/{{ news.image_path }}">
 {% endif %}
+
+<div class="news-content">
+<div class="live">LIVE</div>
+<div class="title">{{ news.title }}</div>
+<div>{{ news.content[:120] }}...</div>
+<div class="area">{{ news.area }}</div>
+</div>
+
+</div>
+
+{% endfor %}
+{% endif %}
+
 
 
 <!-- ================= E-PAPER SECTION ================= -->
 
 {% if pages %}
+
 <div class="epaper-section">
 
-    <div class="epaper-header">
-        📰 Pune Vaibhav E-Paper Edition
-    </div>
+<div class="epaper-header">
+📰 Pune Vaibhav E-Paper Edition
+</div>
 
-    <div class="epaper-container">
-        {% for page in pages %}
-        <div class="epaper-page">
-            <div class="page-number">Page {{ loop.index }}</div>
-            <img src="/static/{{ page }}">
-        </div>
-        {% endfor %}
-    </div>
+<div class="epaper-container">
+
+{% for page in pages %}
+
+<div style="margin-bottom:30px; background:white; padding:15px; border-radius:10px;">
+
+<h3>Page {{ loop.index }}</h3>
+
+<img src="/{{ page }}"
+style="width:100%; border:1px solid #ddd; border-radius:10px;" />
 
 </div>
+
+{% endfor %}
+
+</div>
+
+</div>
+
 {% endif %}
 
 </body>
 </html>
-
