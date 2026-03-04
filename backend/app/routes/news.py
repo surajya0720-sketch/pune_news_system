@@ -38,7 +38,6 @@ def show_edition(request: Request):
         save_path = os.path.join(output_folder, filename)
         page.save(save_path, "JPEG")
 
-        # static path
         image_list.append(f"static/newspaper/{filename}")
 
     return templates.TemplateResponse(
@@ -52,12 +51,13 @@ def show_edition(request: Request):
 
 
 # -----------------------------
-# AREA FILTER ROUTE
+# AREA FILTER ROUTE (FIXED)
 # -----------------------------
 @router.get("/area/{area_name}")
 def news_by_area(area_name: str, request: Request, db: Session = Depends(get_db)):
 
-    news_list = db.query(News).filter(News.area == area_name).all()
+    # ✅ case-insensitive filter
+    news_list = db.query(News).filter(News.area.ilike(area_name)).all()
 
     return templates.TemplateResponse(
         "index.html",
