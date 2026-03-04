@@ -12,7 +12,7 @@ from backend.app.routes import news
 app = FastAPI()
 
 # ✅ STATIC MOUNT (ONLY ONCE)
-app.mount("/static", StaticFiles(directory="app/static"), name="static")
+app.mount("/static", StaticFiles(directory="backend/app/static"), name="static")
 
 # ✅ Create DB tables
 Base.metadata.create_all(bind=engine)
